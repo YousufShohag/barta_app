@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Carbon;
 class UserController extends Controller
 {
     /**
@@ -28,6 +29,16 @@ class UserController extends Controller
         //     'email' => $request->email,
         //     'password' => $request->password
         // ]);
+
+        $validated = $request->validate([
+            'name' => 'required|max:255',
+            'username' => 'required',
+            'email' => 'required|email|unique:users,email,',
+            'password' => [
+                'required',
+                'min:6'
+            ],
+        ]);
 
         User::create([
             "name"=> $form_input["name"],
@@ -55,11 +66,35 @@ class UserController extends Controller
 
 
     if (Auth::attempt($credentials)) {
-        return view("pages.index");
+
+        // $allPosts = Post::all();
+        $details = DB::table('posts')
+            ->join('users','posts.user_id','=','users.id')
+            // ->select('posts.*', 'users.*')
+            ->select('posts.*', 'users.*')
+            ->get();
+
+        return view('pages.index',compact('details'));
     }else{
         return view("pages.404");
     }
 
+    }
+
+    public function home(){
+        // $allPosts = Post::all();
+        $details = DB::table('posts')
+                        ->join('users','posts.user_id','=','users.id')
+                        ->select('posts.*', 'users.*')
+                        // ->select('posts.*', 'users.name', 'users.username')
+                        ->get();
+
+
+
+        // $now = Carbon::now();
+        // return($now);
+
+        return view('pages.index',compact('details'));
     }
 
     public function logout(Request $request){

@@ -7,7 +7,7 @@
         <div class="flex h-16 justify-between">
           <div class="flex">
             <div class="flex flex-shrink-0 items-center">
-              <a href="{{ route('index') }}">
+              <a href="{{ route('home') }}">
                 <h2 class="font-bold text-2xl">Barta</h2>
               </a>
             </div>
@@ -84,7 +84,7 @@
                 <button
                   @click="open = !open"
                   type="button"
-                  class="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                  class="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-8"
                   id="user-menu-button"
                   aria-expanded="false"
                   aria-haspopup="true">
@@ -101,7 +101,7 @@
               <div
                 x-show="open"
                 @click.away="open = false"
-                class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                class="absolute right-0 z-10 mt-5 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                 role="menu"
                 aria-orientation="vertical"
                 aria-labelledby="user-menu-button"
