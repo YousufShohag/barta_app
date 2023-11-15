@@ -56,7 +56,7 @@ class UserController extends Controller
     {
         return view("auth.login");
     }
-
+//! FOR POST
     public function loginsuccess(Request $request)
     {
         $credentials = $request->validate([
@@ -71,7 +71,7 @@ class UserController extends Controller
         $details = DB::table('posts')
             ->join('users','posts.user_id','=','users.id')
             // ->select('posts.*', 'users.*')
-            ->select('posts.*', 'users.*')
+            ->select('posts.*', 'users.id','users.name','users.username','users.email','users.bio')
             ->get();
 
         return view('pages.index',compact('details'));
@@ -80,16 +80,14 @@ class UserController extends Controller
     }
 
     }
-
+//! FOR GET
     public function home(){
         // $allPosts = Post::all();
         $details = DB::table('posts')
                         ->join('users','posts.user_id','=','users.id')
-                        ->select('posts.*', 'users.*')
+                        ->select('posts.*', 'users.id','users.name','users.username','users.email','users.bio')
                         // ->select('posts.*', 'users.name', 'users.username')
                         ->get();
-
-
 
         // $now = Carbon::now();
         // return($now);

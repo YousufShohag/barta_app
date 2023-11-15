@@ -56,6 +56,24 @@ class PostController extends Controller
         return redirect()->route('home');
         // return view('pages.index',compact('details'));
     }
+    public function single_post($id){
+
+        // dd($id);
+
+        $details = DB::table('users')
+        ->join('posts','users.id','=','posts.user_id')
+        ->select('users.*', 'posts.*')
+        ->get();
+
+        $user = DB::table('users')->where('id', $id)->first();
+
+        // dd($details);
+        // $details = DB::table('posts')
+        // ->join('users','posts.user_id','=','users.id')
+        // ->select('posts.*', 'users.*')
+        // ->get();
+        return view('pages.single-post',compact('user','details'));
+    }
 
 
 

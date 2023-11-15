@@ -75,13 +75,13 @@
                     <!-- User Info -->
                     <div class="text-gray-900 flex flex-col min-w-0 flex-1">
                     <a
-                        href="profile.html"
+                        href="{{ route('single-post', $detail->id) }}"
                         class="hover:underline font-semibold line-clamp-1">
                         {{ $detail->name }}
                     </a>
 
                     <a
-                        href="profile.html"
+                        href="{{ route('single-post', $detail->id) }}"
                         class="hover:underline text-sm text-gray-500 line-clamp-1">
                         {{ '@'.  $detail->name }}
                     </a>
@@ -150,7 +150,7 @@
             <!-- Date Created & View Stat -->
             <div class="flex items-center gap-2 text-gray-500 text-xs my-2">
                 <span class="">Created at: {{ \Carbon\Carbon::parse($detail->created_at)->format('H:i:s') }}</span>
-                <p>Time: {{ \Carbon\Carbon::parse($detail->created_at) }}</p>
+
                 <span class="">•</span>
                 <span>450 views</span>
             </div>

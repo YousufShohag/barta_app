@@ -36,9 +36,10 @@ Route::group(['middleware'=> 'auth'], function () {
 
 //! FOR POSTS ROUTE
     Route::post('/post', [PostController::class, 'post_register'])->name('post_register');
+    Route::get('/single-post/{id}', [PostController::class, 'single_post'])->name('single-post');
     Route::get('/showPost/{uuid}/', [PostController::class, 'showPost'])->name('showPost');
     Route::get('/deletePost/{uuid}/', [PostController::class, 'deletePost'])->name('deletePost');
     Route::post('/updatePost/{uuid}/', [PostController::class, 'updatePost'])->name('updatePost');
-    
+
 
 });
