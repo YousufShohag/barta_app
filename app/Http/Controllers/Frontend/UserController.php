@@ -23,13 +23,6 @@ class UserController extends Controller
     {
          $form_input = $request->all();
 
-        // DB::table('users')->insert([
-        //     'name' => $request->name,
-        //     'username' => $request->username,
-        //     'email' => $request->email,
-        //     'password' => $request->password
-        // ]);
-
         $validated = $request->validate([
             'name' => 'required|max:255',
             'username' => 'required',
@@ -73,7 +66,6 @@ class UserController extends Controller
             // ->select('posts.*', 'users.*')
             ->select('posts.*', 'users.id','users.name','users.username','users.email','users.bio')
             ->get();
-
         return view('pages.index',compact('details'));
     }else{
         return view("pages.404");

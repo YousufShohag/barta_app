@@ -38,20 +38,10 @@
       </div>
 
       <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-{{--
-        @if ($errors->any())
-        <div class="alert alert-danger ">
-            <ul class="color-red">
-                @foreach ($errors->all() as $error)
-                    <li class="color-red">{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif --}}
-
         <form
           class="space-y-6"
           action="{{ route('register_store') }}"
+          {{--  --}}
           method="POST">
           @csrf
           <!-- Name -->
@@ -59,7 +49,7 @@
             <label
               for="name"
               class="block text-sm font-medium leading-6 text-gray-900"
-              >Full Name<span class="text-red-600">*</span></label
+              >Full Name</label
             >
             <div class="mt-2">
               <input
@@ -68,11 +58,8 @@
                 type="text"
                 autocomplete="name"
                 placeholder="Alp Arslan"
-                value="{{ old('name') }}"
-                class="block w-full rounded-md border-0 p-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6" @error('name')   @enderror />
-                @error('name')
-                <div class=" text-sm font-medium leading-6 text-red-900"><p>Please Enter Your Full Name Here </p></div>
-            @enderror
+                required
+                class="block w-full rounded-md border-0 p-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6" />
             </div>
           </div>
 
@@ -81,7 +68,7 @@
             <label
               for="username"
               class="block text-sm font-medium leading-6 text-gray-900"
-              >Username<span class="text-red-600">*</span></label
+              >Username</label
             >
             <div class="mt-2">
               <input
@@ -90,12 +77,8 @@
                 type="text"
                 autocomplete="username"
                 placeholder="alparslan1029"
-                value="{{ old('username') }}"
-                class="block w-full rounded-md border-0 p-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6" @error('username')   @enderror />
-
-                @error('username')
-                <div class=" text-sm font-medium leading-6 text-red-900"><p>Please Enter Username  </p></div>
-                @enderror
+                required
+                class="block w-full rounded-md border-0 p-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6" />
             </div>
           </div>
 
@@ -104,7 +87,7 @@
             <label
               for="email"
               class="block text-sm font-medium leading-6 text-gray-900"
-              >Email address<span class="text-red-600">*</span></label
+              >Email address</label
             >
             <div class="mt-2">
               <input
@@ -112,15 +95,9 @@
                 name="email"
                 type="email"
                 autocomplete="email"
-                value="{{ old('email') }}"
                 placeholder="alp.arslan@mail.com"
-                {{-- required --}}
-                class="block w-full rounded-md border-0 p-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6" @error('email')
-
-                @enderror />
-                @error('email')
-                <div class=" text-sm font-medium leading-6 text-red-900">{{ $message }}</div>
-                @enderror
+                required
+                class="block w-full rounded-md border-0 p-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6" />
             </div>
           </div>
 
@@ -129,22 +106,17 @@
             <label
               for="password"
               class="block text-sm font-medium leading-6 text-gray-900"
-              >Password<span class="text-red-600">*</span></label
+              >Password</label
             >
             <div class="mt-2">
               <input
                 id="password"
                 name="password"
                 type="password"
-                {{-- autocomplete="current-password" --}}
-                {{-- placeholder="••••••••" --}}
-                {{-- required --}}
-                class="block w-full rounded-md border-0 p-2 p-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6" @error('password')
-
-                @enderror />
-                @error('password')
-                <div class=" text-sm font-medium leading-6 text-red-900">{{ $message }}</div>
-                @enderror
+                autocomplete="current-password"
+                placeholder="••••••••"
+                required
+                class="block w-full rounded-md border-0 p-2 p-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6" />
             </div>
           </div>
 
