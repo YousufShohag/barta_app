@@ -21,17 +21,15 @@
               <div class="flex items-center space-x-3">
                 <!-- User Info -->
                 <div class="text-gray-900 flex flex-col min-w-0 flex-1">
-                  <a
-                    href="profile.html"
-                    class="hover:underline font-semibold line-clamp-1">
-                    {{ $post->name }}
-                  </a>
+                  <h4
+                    class=" font-semibold line-clamp-1">
+                    {{ Str::upper($post->name) }}
+                  </h4>
 
-                  <a
-                    href="profile.html"
-                    class="hover:underline text-sm text-gray-500 line-clamp-1">
-                    {{ $post->username }}
-                  </a>
+                  <p
+                    class=" text-sm text-gray-500 line-clamp-1">
+                    {{ Str::lower($post->username) }}
+                  </p>
                 </div>
                 <!-- /User Info -->
               </div>
@@ -100,7 +98,7 @@
           <div class="flex items-center gap-2 text-gray-500 text-xs my-2">
             <span class="">Created at: {{ \Carbon\Carbon::parse($post->created_at)->format('H:i:s') }}</span>
             <span class="">•</span>
-            <span>3 comments</span>
+            <span>{{ $comments->count() }} comments</span>
             <span class="">•</span>
             <span>450 views</span>
           </div>
@@ -165,7 +163,7 @@
         <!-- /Barta Card -->
 
         <hr />
-        <div class="flex flex-col space-y-6">
+        {{-- <div class="flex flex-col space-y-6">
           <h1 class="text-lg font-semibold">Comments (3)</h1>
 
           <!-- Barta User Comments Container -->
@@ -339,7 +337,7 @@
             <!-- /Comments -->
           </article>
           <!-- /Barta User Comments -->
-        </div>
+        </div> --}}
       </section>
       <!-- /Newsfeed -->
     </main>

@@ -59,11 +59,20 @@ class PostController extends Controller
     public function single_post($id){
         $details = DB::table('users')
         ->join('posts','users.id','=','posts.user_id')
+        // ->where('posts.uuid', $uuid)
         ->select('users.*', 'posts.*')
         ->get();
 
+        $post = DB::table('posts')->where('id', $id)->first();
+
+        $comments = DB::table('comments')
+                ->join('users','comments.user_id','=','users.id')
+                ->select('comments.*', 'users.name','users.username')
+                ->where('post_id',$post->id)
+                ->get();
+
         $user = DB::table('users')->where('id', $id)->first();
-        return view('pages.single-post',compact('user','details'));
+        return view('pages.single-post',compact('user','details','comments'));
     }
 
 

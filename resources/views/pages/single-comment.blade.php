@@ -21,17 +21,17 @@
               <div class="flex items-center space-x-3">
                 <!-- User Info -->
                 <div class="text-gray-900 flex flex-col min-w-0 flex-1">
-                  <a
-                    href="profile.html"
-                    class="hover:underline font-semibold line-clamp-1">
-                    {{ $post->name }}
-                  </a>
+                  <h4
 
-                  <a
-                    href="profile.html"
-                    class="hover:underline text-sm text-gray-500 line-clamp-1">
-                    {{ $post->username }}
-                  </a>
+                    class=" font-semibold line-clamp-1">
+                    {{ Str::upper($post->name) }}
+                  </h4>
+
+                  <p
+
+                    class=" text-sm text-gray-500 line-clamp-1">
+                    {{ Str::lower($post->username) }}
+                  </p>
                 </div>
                 <!-- /User Info -->
               </div>
@@ -176,7 +176,7 @@
 
             <!-- Comment 1 -->
             {{-- {{ dd($post) }} --}}
-        @foreach ($comments as $comment)
+        @forelse ($comments as $comment)
             <div class="py-4">
                 <!-- Barta User Comments Top -->
                 <header>
@@ -185,18 +185,16 @@
                     <div class="flex items-center space-x-3">
                     <!-- User Info -->
                     <div class="text-gray-900 flex flex-col min-w-0 flex-1">
-                        <a
-                        href="profile.html"
-                        class="hover:underline font-semibold line-clamp-1">
-                        {{ $comment->name }}
-
-                        </a>
-
-                        <a
-                        href="profile.html"
-                        class="hover:underline text-sm text-gray-500 line-clamp-1">
-                        {{ $comment->username }}
-                        </a>
+                        <h4
+                        {{-- href="profile.html" --}}
+                        class=" font-semibold line-clamp-1">
+                        {{ Str::upper($comment->name) }}
+                        </h4>
+                        <p
+                        {{-- href="profile.html" --}}
+                        class=" text-sm text-gray-500 line-clamp-1">
+                        {{ Str::lower($comment->username) }}
+                        </p>
                     </div>
                     <!-- /User Info -->
                     </div>
@@ -266,9 +264,9 @@
                 <span class="">Created at: {{ \Carbon\Carbon::parse($comment->created_at)->format('H:i:s') }}</span>
                 </div>
             </div>
-
-
-            @endforeach
+            @empty
+            <h3>No Comments</h3>
+            @endforelse
 
             <!-- /Comment 1 -->
 
