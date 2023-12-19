@@ -5,12 +5,21 @@ namespace App\Http\Controllers\Frontend;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Carbon;
+use App\Http\Requests\UserCreateRequest;
+use App\Http\Controllers\Frontend\PostController;
+
 class UserController extends Controller
 {
+    protected $postController;
+
+    public function __construct(PostController $postController)
+    {
+        $this->postController = $postController;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -19,31 +28,12 @@ class UserController extends Controller
         return view("auth.register");
     }
 
-    public function register_store(Request $request)
+    public function register_store(UserCreateRequest $request)
     {
-         $form_input = $request->all();
-
-        $validated = $request->validate([
-            'name' => 'required|max:255',
-            'username' => 'required',
-            'email' => 'required|email|unique:users,email,',
-            'password' => [
-                'required',
-                'min:6'
-            ],
-        ]);
-
-        User::create([
-            "name"=> $form_input["name"],
-            "username"=> $form_input["username"],
-            "email"=> $form_input["email"],
-            "password"=> $form_input["password"],
-        ]);
-
+        $data = $request->validated();
+        User::create($data);
         return view("pages.thanks");
     }
-
-
 
     public function login()
     {
@@ -59,32 +49,12 @@ class UserController extends Controller
 
 
     if (Auth::attempt($credentials)) {
-
-        // $allPosts = Post::all();
-        $details = DB::table('posts')
-            ->join('users','posts.user_id','=','users.id')
-            // ->select('posts.*', 'users.*')
-            ->select('posts.*', 'users.id','users.name','users.username','users.email','users.bio')
-            ->get();
-        return view('pages.index',compact('details'));
+       $details = $this->postController->index();
+        return redirect()->route('home');
     }else{
         return view("pages.404");
     }
 
-    }
-//! FOR GET
-    public function home(){
-        // $allPosts = Post::all();
-        $details = DB::table('posts')
-                        ->join('users','posts.user_id','=','users.id')
-                        ->select('posts.*', 'users.id','users.name','users.username','users.email','users.bio')
-                        // ->select('posts.*', 'users.name', 'users.username')
-                        ->get();
-
-        // $now = Carbon::now();
-        // return($now);
-
-        return view('pages.index',compact('details'));
     }
 
     public function logout(Request $request){
@@ -100,7 +70,6 @@ class UserController extends Controller
     public function update_profile(Request $request)
     {
         $form_input = $request->all();
-        //dd($form_input);
         $user = User::find(Auth::id());
 
         $user->name = $form_input["name"];
@@ -114,40 +83,17 @@ class UserController extends Controller
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    public function search(Request $request)
+{
+
+    $query = $request->input('query');
+
+    $users = User::where('name', 'like', "%{$query}%")
+                ->orWhere('email', 'like', "%{$query}%")
+                ->get();
+
+    return view('pages.search-results', compact('users', 'query'));
+}
 
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

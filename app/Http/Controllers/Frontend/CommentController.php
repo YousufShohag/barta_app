@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Models\Comment;
 use App\Models\Post;
+use App\Models\User;
+use App\Models\Comment;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -23,24 +24,51 @@ class CommentController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create($uuid)
+    public function create(string $uuid)
     {
+    //     $details = Post::with('user:id,name,username,email,bio')
+    //                 ->select('posts.*')
+    //                 ->get();
+    //                 // dd($details);
+    //     // $post = DB::table('posts')->where('uuid', $uuid)->first();
 
-        $details = DB::table('posts')
-        ->join('users','posts.user_id','=','users.id')
-        ->where('posts.uuid', $uuid)
-        ->select('posts.*', 'users.name','users.username')
-        ->get();
+    //     $post = Post::where('uuid', $uuid)->first();
 
-            $post = DB::table('posts')->where('uuid', $uuid)->first();
+    // //   dd($post);
 
-            $comments = DB::table('comments')
-                    ->join('users','comments.user_id','=','users.id')
-                    ->select('comments.*', 'users.name','users.username')
-                    ->where('post_id',$post->id)
-                    ->get();
+    //     // $comments = Comment::with('user:id,name,username,email,bio')
+    //     //             ->select('comments.*')
+    //     //             ->where('post_id',$post->id)
+    //     //             ->get();
+    //     $comments = DB::table('comments')
+    //                 ->join('users','comments.user_id','=','users.id')
+    //                 ->select('comments.*', 'users.name','users.username')
+    //                 ->where('post_id',$post->id)
+    //                 ->get();
+    //                 // dd($comments);
 
-        return view('pages.single-comment',compact('details','comments'));
+    //     // $user = User::where('id',$post->user_id)->first();
+
+    //     // dd($user);
+    //     return view('pages.single-comment',compact('details','comments'));
+    $details = DB::table('posts')
+    ->join('users','posts.user_id','=','users.id')
+    ->where('posts.uuid', $uuid)
+    ->select('posts.*', 'users.name','users.username')
+    ->latest()
+    ->get();
+
+        $post = DB::table('posts')->where('uuid', $uuid)->first();
+
+        $comments = DB::table('comments')
+                ->join('users','comments.user_id','=','users.id')
+                ->select('comments.*', 'users.name','users.username')
+                ->where('post_id',$post->id)
+                ->get();
+
+                // $images = Post::latest()->get();
+
+    return view('pages.single-comment',compact('details','comments'));
     }
 
 
@@ -62,28 +90,12 @@ class CommentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function showComment($uuid)
+    public function edit(string $uuid)
     {
-        // dd($uuid);
-        $comments = DB::table('comments')->where('uuid', $uuid)->first();
+        $comments = Comment::where('uuid', $uuid)->first();
         return view('pages.edit-comment',compact('comments'));
     }
 
-    public function showPost($uuid){
-
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $uuid)
     {
         $form_input = $request->all();
@@ -95,7 +107,6 @@ class CommentController extends Controller
             'comments'=> $form_input["comments"],
         ]);
         return redirect()->back();
-        // return view('pages.single-comment');
     }
 
     /**
@@ -103,7 +114,8 @@ class CommentController extends Controller
      */
     public function destroy(string $uuid)
     {
-            $comments = DB::table('comments')->where('uuid', $uuid)->delete();
+            // $comments = DB::table('comments')->where('uuid', $uuid)->delete();
+            $comments = Comment::where('uuid', $uuid)->delete();
             return redirect()->back();
 
     }

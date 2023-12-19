@@ -11,7 +11,7 @@
         id="newsfeed"
         class="space-y-6">
         <!-- Barta Card -->
-        @foreach ($details as $post)
+    @foreach ($details as $post)
         {{-- @if ($user->id ==  $post->user_id) --}}
         <article
           class="bg-white border-2 border-black rounded-lg shadow mx-auto max-w-none px-4 py-5 sm:px-6">
@@ -22,14 +22,11 @@
                 <!-- User Info -->
                 <div class="text-gray-900 flex flex-col min-w-0 flex-1">
                   <h4
-
                     class=" font-semibold line-clamp-1">
                     {{ Str::upper($post->name) }}
                   </h4>
-
                   <p
-
-                    class=" text-sm text-gray-500 line-clamp-1">
+                    class="text-sm text-gray-500 line-clamp-1">
                     {{ Str::lower($post->username) }}
                   </p>
                 </div>
@@ -37,7 +34,7 @@
               </div>
 
               <!-- Card Action Dropdown -->
-              @if (Auth::user()->id  ===  $post->user_id)
+            @if (Auth::user()->id  ===  $post->user_id)
                 <div class="flex flex-shrink-0 self-center" x-data="{ open: false }">
 
                     <div class="relative inline-block text-left">
@@ -93,6 +90,7 @@
           <div class="py-4 text-gray-700 font-normal">
             <p>
                 {{ $post->description }}
+                {{-- {{ $post->getFirstMedia('image') }} --}}
             </p>
           </div>
 

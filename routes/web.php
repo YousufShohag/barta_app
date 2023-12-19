@@ -28,11 +28,7 @@ use App\Http\Controllers\Frontend\CommentController;
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/home', [UserController::class, 'home'])->name('home');
 
 
     Route::get('/index', function () {
@@ -50,23 +46,27 @@ Route::middleware('auth')->group(function () {
     Route::post('/update-profile', [UserController::class, 'update_profile'])
                 ->name('update-profile');
 
-    Route::get('/home', [UserController::class, 'home'])
-                ->name('home');
+    Route::match(['get', 'post'], '/search', [UserController::class, 'search'])->name('search');
 
 //! FOR POSTS ROUTE
-    Route::post('/post', [PostController::class, 'post_register'])
+
+
+    Route::get('/home', [PostController::class, 'index'])
+    ->name('home');
+
+    Route::post('/post', [PostController::class, 'store'])
                 ->name('post_register');
 
-    Route::get('/single-post/{id}', [PostController::class, 'single_post'])
+    Route::get('/single-post/{uuid}', [PostController::class, 'single_post'])
                 ->name('single-post');
 
-    Route::get('/showPost/{uuid}/', [PostController::class, 'showPost'])
+    Route::get('/showPost/{uuid}/', [PostController::class, 'show'])
                 ->name('showPost');
 
-    Route::get('/deletePost/{uuid}/', [PostController::class, 'deletePost'])
+    Route::get('/deletePost/{uuid}/', [PostController::class, 'destroy'])
                 ->name('deletePost');
 
-    Route::post('/updatePost/{uuid}/', [PostController::class, 'updatePost'])
+    Route::post('/updatePost/{uuid}/', [PostController::class, 'update'])
                 ->name('updatePost');
 
 //! FOR SINGLE COMMENT ROUTE
@@ -76,14 +76,15 @@ Route::get('/comment/{uuid}', [CommentController::class, 'create'])
 Route::post('/store/{id}/', [CommentController::class, 'store'])
                 ->name('store');
 });
-
-Route::get('/deleteComment/{uuid}/', [CommentController::class, 'destroy'])
-                ->name('destroy');
-
-Route::get('/showComment/{uuid}/', [CommentController::class, 'showComment'])
+Route::get('/showComment/{uuid}/', [CommentController::class, 'edit'])
                 ->name('showComment');
 
 Route::post('/updateComment/{uuid}/', [CommentController::class, 'update'])
                 ->name('updateComment');
+
+Route::get('/deleteComment/{uuid}/', [CommentController::class, 'destroy'])
+                ->name('destroy');
+
+
 
 require __DIR__.'/auth.php';

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('uuid');
             $table->longText('comments');
-            $table->foreignId('user_id');
-            $table->foreignId('post_id');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete;
+            $table->foreignId('post_id')->constrained('posts')->cascadeOnDelete;
             $table->foreignId('post_uuid')->nullable();
             $table->integer('comments_count')->nullable();
             $table->string('image')->nullable();

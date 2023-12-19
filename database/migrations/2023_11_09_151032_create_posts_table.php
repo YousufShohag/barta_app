@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('uuid');
             $table->longText('description');
-            $table->integer('user_id');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->integer('view_count')->nullable();
             $table->string('image')->nullable();
             $table->timestamps();
